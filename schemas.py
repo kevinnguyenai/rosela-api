@@ -51,10 +51,16 @@ class RecipesResponse(BaseModel):
   message: str
   recipes: Union[List[RecipesBase], None] = None
 
+  class Config:
+      orm_mode = True
+
 # full data of recipes
 class RecipesBaseFull(RecipesBase):
   created_at: str
   updated_at: str
+
+  class Config:
+      orm_mode = True
 
 # created response for recipes
 class RecipesCreateResponse(BaseModel):
