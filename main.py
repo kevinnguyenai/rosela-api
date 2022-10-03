@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-
+from time import strftime
 from typing import List
 
 from fastapi import Depends, FastAPI, HTTPException
@@ -25,7 +25,7 @@ def get_db():
     finally:
         db.close()
 
-
+##-----------users Controller--------------------
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db_user = crud.get_user_by_email(db, email=user.email)
@@ -54,8 +54,46 @@ def create_item_for_user(
 ):
     return crud.create_user_item(db=db, item=item, user_id=user_id)
 
-
+##----------------------Item Controller-----------------
 @app.get("/items/", response_model=List[schemas.Item])
 def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     items = crud.get_items(db, skip=skip, limit=limit)
     return items
+
+##---------------------Recipes Controller---------------
+@app.post("/recipses", response_model=schemas.RecipesCreateResponse)
+def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db)):
+    db_recipse = crud.create_recipses(db, recipse)
+    created_recipse = schemas.RecipesBaseFull(
+                id=str(db_recipse.id),
+                title=db_recipse.title,
+                making_time=db_recipse.making_time,
+                serves=db_recipse.serves,
+                ingredients=db_recipse.ingredients,
+                cost=str(db_recipse.cost),
+                created_at=str(db_recipse.created_at),
+                updated_at=str(db_recipse.updated_at)
+            )
+    new_res = []
+    new_res.append(created_recipse)
+    return schemas.RecipesCreateResponse(
+        message="Recipse successfully created!",
+        recipes=new_res
+    )
+
+
+@app.get("/recipses", response_model=schemas.RecipesListResponse)
+def get_recipses():
+    pass
+
+@app.get("recipses/{id}", response_model=schemas.RecipesResponse)
+def get_recipses_by_id():
+    pass
+
+@app.patch("recipses/{id}", response_model=schemas.RecipesResponse)
+def patch_recipses_by_id():
+    pass
+
+@app.delete("recipses/{id}", response_model=schemas.RecipesDeleteResponse)
+def delete_recipses_by_id():
+    pass

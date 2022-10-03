@@ -2,6 +2,7 @@ from lib2to3.pytree import Base
 from typing import List, Union
 
 from pydantic import BaseModel
+from time import strftime
 
 
 class ItemBase(BaseModel):
@@ -61,6 +62,14 @@ class RecipesBaseFull(RecipesBase):
 
   class Config:
       orm_mode = True
+
+# create recipse
+class RecipesCreate(BaseModel):
+    title: str
+    making_time: str
+    serves: str
+    ingredients: str
+    cost: str
 
 # created response for recipes
 class RecipesCreateResponse(BaseModel):

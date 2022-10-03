@@ -41,5 +41,5 @@ class Recipse(Base):
   ingredients = Column(String, index=True)
   cost = Column(Integer, index=True)
   created_at = Column(DateTime, index=True, default=datetime.datetime.now())
-  updated_at = Column(DateTime, index=True, onupdate=datetime.datetime.now())
+  updated_at = Column(DateTime, index=True, default=datetime.datetime.now(), onupdate=datetime.datetime.now())
 
