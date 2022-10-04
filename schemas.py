@@ -74,7 +74,7 @@ class RecipesCreate(BaseModel):
 # created response for recipes
 class RecipesCreateResponse(BaseModel):
   message: str
-  recipes: Union[List[RecipesBaseFull], None] = None
+  recipe: Union[List[RecipesBaseFull], None] = None
 
 class RecipesCreateResponseFailure(BaseModel):
   message: str

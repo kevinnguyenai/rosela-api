@@ -96,7 +96,7 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
         new_res.append(created_recipse)
         return schemas.RecipesCreateResponse(
             message="Recipe successfully created!",
-            recipes=new_res
+            recipe=new_res
         )
     raise HTTPException(
         status_code=200,
