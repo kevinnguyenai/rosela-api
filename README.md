@@ -1,6 +1,6 @@
 # FastAPI Assignment for Rosela
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/1ntegrale9/fastapi-heroku-template/tree/main)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/kevinnguyenai/rosela-pai/tree/main)
 
 
 ## TO DO:
