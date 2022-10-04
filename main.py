@@ -78,7 +78,7 @@ async def validation_exception_handler(request, exc):
     # inherited default response for others
     return await request_validation_exception_handler(request, exc)
 
-@app.post("/recipses", response_model=schemas.RecipesCreateResponse)
+@app.post("/recipes", response_model=schemas.RecipesCreateResponse)
 def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db)):
     db_recipse = crud.create_recipses(db, recipse)
     if isinstance(db_recipse, models.Recipse):
@@ -108,7 +108,7 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
 
 
 
-@app.get("/recipses", response_model=schemas.RecipesListResponse)
+@app.get("/recipes", response_model=schemas.RecipesListResponse)
 def get_recipses(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_recipses = crud.get_recipses(db, skip, limit)
     list_recipse = []
@@ -119,7 +119,7 @@ def get_recipses(skip: int = 0, limit: int = 100, db: Session = Depends(get_db))
         recipes=list_recipse
     )
 
-@app.get("/recipses/{id}", response_model=schemas.RecipesResponse)
+@app.get("/recipes/{id}", response_model=schemas.RecipesResponse)
 def get_recipses_by_id(id: int, db: Session = Depends(get_db)):
     db_recipse = crud.get_recipes_id(db, id)
     list_recipse = []
@@ -132,7 +132,7 @@ def get_recipses_by_id(id: int, db: Session = Depends(get_db)):
         recipes=list_recipse
     )
 
-@app.patch("/recipses/{id}", response_model=schemas.RecipesResponse)
+@app.patch("/recipes/{id}", response_model=schemas.RecipesResponse)
 def patch_recipses_by_id(id: int, data: schemas.RecipesCreate ,db: Session = Depends(get_db)):
     db_recipse = crud.update_recipes_id(db, id, data)
     updated_recipse = []
@@ -144,7 +144,7 @@ def patch_recipses_by_id(id: int, data: schemas.RecipesCreate ,db: Session = Dep
     )
     
 
-@app.delete("/recipses/{id}", response_model=schemas.RecipesDeleteResponse)
+@app.delete("/recipes/{id}", response_model=schemas.RecipesDeleteResponse)
 def delete_recipses_by_id(id: int, db: Session = Depends(get_db)):
     is_deleted = crud.delete_recipes_id(db, id)
     if is_deleted:
