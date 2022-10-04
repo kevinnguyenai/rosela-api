@@ -78,7 +78,7 @@ async def validation_exception_handler(request, exc):
     # inherited default response for others
     return await request_validation_exception_handler(request, exc)
 
-@app.post("/recipes", response_model=schemas.RecipesCreateResponse)
+@app.post("/recipes/", response_model=schemas.RecipesCreateResponse)
 def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db)):
     db_recipse = crud.create_recipses(db, recipse)
     if isinstance(db_recipse, models.Recipse):
@@ -108,7 +108,7 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
 
 
 
-@app.get("/recipes", response_model=schemas.RecipesListResponse)
+@app.get("/recipes/", response_model=schemas.RecipesListResponse)
 def get_recipses(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     db_recipses = crud.get_recipses(db, skip, limit)
     list_recipse = []
