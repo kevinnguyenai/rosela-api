@@ -74,7 +74,7 @@ async def validation_exception_handler(request, exc):
         return JSONResponse({
             "message":"Recipe creation failed!",
             "required":"title, making_time, serves, ingredients, cost"
-        }, status_code=404)
+        }, status_code=200)
     # inherited default response for others
     return await request_validation_exception_handler(request, exc)
 
@@ -99,7 +99,7 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
             recipes=new_res
         )
     raise HTTPException(
-        status_code=404,
+        status_code=200,
         detail={
             "message":"Recipe creation failed!",
             "required":"Internal server error when write data"
