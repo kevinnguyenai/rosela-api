@@ -109,17 +109,48 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
 
 
 @app.get("/recipses", response_model=schemas.RecipesListResponse)
-def get_recipses():
-    pass
+def get_recipses(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    db_recipses = crud.get_recipses(db, skip, limit)
+    list_recipse = []
+    if type(db_recipses) is list and len(db_recipses) > 0:
+        for each in db_recipses:
+            list_recipse.append(schemas.RecipesBase(**each.__dict__))
+    return schemas.RecipesListResponse(
+        recipes=list_recipse
+    )
 
-@app.get("recipses/{id}", response_model=schemas.RecipesResponse)
-def get_recipses_by_id():
-    pass
+@app.get("/recipses/{id}", response_model=schemas.RecipesResponse)
+def get_recipses_by_id(id: int, db: Session = Depends(get_db)):
+    db_recipse = crud.get_recipes_id(db, id)
+    list_recipse = []
+    if isinstance(db_recipse, models.Recipse):
+        list_recipse.append(
+            schemas.RecipesBase(**db_recipse.__dict__)
+        )
+    return schemas.RecipesResponse(
+        message="Recipe details by id",
+        recipes=list_recipse
+    )
 
-@app.patch("recipses/{id}", response_model=schemas.RecipesResponse)
-def patch_recipses_by_id():
-    pass
+@app.patch("/recipses/{id}", response_model=schemas.RecipesResponse)
+def patch_recipses_by_id(id: int, data: schemas.RecipesCreate ,db: Session = Depends(get_db)):
+    db_recipse = crud.update_recipes_id(db, id, data)
+    updated_recipse = []
+    if isinstance(db_recipse, models.Recipse):
+        updated_recipse.append(schemas.RecipesBase(**db_recipse.__dict__))
+    return schemas.RecipesResponse(
+        message="Recipse successfully updated!",
+        recipes=updated_recipse
+    )
+    
 
-@app.delete("recipses/{id}", response_model=schemas.RecipesDeleteResponse)
-def delete_recipses_by_id():
-    pass
+@app.delete("/recipses/{id}", response_model=schemas.RecipesDeleteResponse)
+def delete_recipses_by_id(id: int, db: Session = Depends(get_db)):
+    is_deleted = crud.delete_recipes_id(db, id)
+    if is_deleted:
+        return schemas.RecipesDeleteResponse(
+            message="Recipe successfully removed!"
+        )
+    return schemas.RecipesDeleteResponse(
+        message="No recipe found"
+    )

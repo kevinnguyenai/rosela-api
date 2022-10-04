@@ -43,3 +43,27 @@ def create_recipses(db: Session, recipse: schemas.RecipesCreate):
     db.commit()
     db.refresh(db_recipse)
     return db_recipse
+
+def get_recipses(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(models.Recipse).offset(skip).limit(limit).all()
+
+def get_recipes_id(db: Session, id: int):
+    return db.query(models.Recipse).filter(models.Recipse.id==id).first()
+
+def update_recipes_id(db: Session, id: int, data: schemas.RecipesCreate):
+    _recipse = db.query(models.Recipse).filter(models.Recipse.id==id).first()
+    if isinstance(_recipse, models.Recipse):
+        for key, value in data:
+            setattr(_recipse, key, value)
+        db.add(_recipse)
+        db.commit()
+        db.refresh(_recipse)
+    return _recipse
+
+def delete_recipes_id(db: Session, id: int) -> bool:
+    recipse = db.query(models.Recipse).filter(models.Recipse.id==id).first()
+    if isinstance(recipse, models.Recipse):
+        db.delete(recipse)
+        db.commit()
+        return True
+    return False

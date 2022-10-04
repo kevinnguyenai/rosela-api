@@ -84,6 +84,9 @@ class RecipesCreateResponseFailure(BaseModel):
 class RecipesListResponse(BaseModel):
   recipes: Union[List[RecipesBase], None] = None
 
+  class Config:
+    orm_mode = True
+
 
 # delete response for recipes
 class RecipesDeleteResponse(BaseModel):
