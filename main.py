@@ -18,7 +18,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title='Rosela API',
     description='Rosela API recipses',
-    docs_url='/'
+    docs_url='/docs'
 )
 
 
@@ -29,6 +29,14 @@ def get_db():
         yield db
     finally:
         db.close()
+
+##-----------root Controller--------------------
+@app.get("/")
+def root_response():
+    raise HTTPException(
+        status_code=404,
+        detail="Page not found!"
+    )
 
 ##-----------users Controller--------------------
 @app.post("/users/", response_model=schemas.User)
