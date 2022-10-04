@@ -72,9 +72,9 @@ async def validation_exception_handler(request, exc):
     # in case of POST creation recipses error input , will response custom as following
     if request.method == "POST" and request.__dict__.get("scope").get("path") == "/recipses":
         return JSONResponse({
-            "message":"Recipse creation failed!",
+            "message":"Recipe creation failed!",
             "required":"title, making_time, serves, ingredients, cost"
-        }, status_code=400)
+        }, status_code=404)
     # inherited default response for others
     return await request_validation_exception_handler(request, exc)
 
@@ -95,13 +95,13 @@ def create_recipses(recipse: schemas.RecipesCreate, db: Session = Depends(get_db
         new_res = []
         new_res.append(created_recipse)
         return schemas.RecipesCreateResponse(
-            message="Recipse successfully created!",
+            message="Recipe successfully created!",
             recipes=new_res
         )
     raise HTTPException(
-        status_code=503,
+        status_code=404,
         detail={
-            "message":"Recipse creation failed!",
+            "message":"Recipe creation failed!",
             "required":"Internal server error when write data"
         }
     )
