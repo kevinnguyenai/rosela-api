@@ -70,7 +70,7 @@ def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     # in case of POST creation recipses error input , will response custom as following
-    if request.method == "POST" and request.__dict__.get("scope").get("path") == "/recipses":
+    if request.method == "POST" and request.__dict__.get("scope").get("path") == "/recipes":
         return JSONResponse({
             "message":"Recipe creation failed!",
             "required":"title, making_time, serves, ingredients, cost"
