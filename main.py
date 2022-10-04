@@ -129,7 +129,7 @@ def get_recipses_by_id(id: int, db: Session = Depends(get_db)):
         )
     return schemas.RecipesResponse(
         message="Recipe details by id",
-        recipes=list_recipse
+        recipe=list_recipse
     )
 
 @app.patch("/recipes/{id}", response_model=schemas.RecipesResponse)
@@ -140,7 +140,7 @@ def patch_recipses_by_id(id: int, data: schemas.RecipesCreate ,db: Session = Dep
         updated_recipse.append(schemas.RecipesBase(**db_recipse.__dict__))
     return schemas.RecipesResponse(
         message="Recipse successfully updated!",
-        recipes=updated_recipse
+        recipe=updated_recipse
     )
     
 

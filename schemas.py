@@ -50,7 +50,7 @@ class RecipesBase(BaseModel):
 # base reponse for recipes
 class RecipesResponse(BaseModel):
   message: str
-  recipes: Union[List[RecipesBase], None] = None
+  recipe: Union[List[RecipesBase], None] = None
 
   class Config:
       orm_mode = True
